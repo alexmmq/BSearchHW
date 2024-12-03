@@ -296,7 +296,6 @@ public final class MyArrays {
         return binarySearchLogic(a, fromIndex, toIndex, key, c);
     }
 
-    //15+16 общий метод для вызова по параметру типа short в массиве типа short
     private static <T> int binarySearchLogic(T[] a, int fromIndex, int toIndex, T key, Comparator<? super T> c){
 
         if(c == null) {

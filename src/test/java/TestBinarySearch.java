@@ -1,7 +1,11 @@
-import aleks.ArrayCreator;
-import aleks.MyArrays;
+import aleks.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 
 public class TestBinarySearch {
 
@@ -14,6 +18,8 @@ public class TestBinarySearch {
     float[] floatArray;
     double[] doubleArray2;
     float[] floatArray2;
+    Student[] studentArray;
+    ArrayList<Student> studentArray2;
 
     @Before
     public void setUp() throws Exception {
@@ -26,6 +32,29 @@ public class TestBinarySearch {
         charArray = ArrayCreator.createArray(100, '1');
         shortArray = ArrayCreator.createArray(100, (short)10);
         longArray = ArrayCreator.createArray(100, (long)10);
+        studentArray = new Student[5];
+        studentArray[0] = new Student("Aleks");
+        studentArray[0].setAge(32);
+        studentArray[0].setScore(85);
+        studentArray[1] = new Student("Zia");
+        studentArray[1].setAge(38);
+        studentArray[1].setScore(90);
+        studentArray[2] = new Student("Muthu");
+        studentArray[2].setAge(33);
+        studentArray[2].setScore(90);
+        studentArray[3] = new Student("Malvin");
+        studentArray[3].setAge(42);
+        studentArray[3].setScore(50);
+        studentArray[4] = new Student("Damian");
+        studentArray[4].setAge(41);
+        studentArray[4].setScore(70);
+        studentArray2 = new ArrayList<>();
+        studentArray2.add(new Student("Richard", 45, 75));
+        studentArray2.add(new Student("Sam", 41, 85));
+        studentArray2.add(new Student("Michael", 42, 90));
+        studentArray2.add(new Student("David", 43, 91));
+        studentArray2.add(new Student("Ali", 25, 82));
+
     }
 
     @Test
@@ -149,13 +178,13 @@ public class TestBinarySearch {
             System.out.print(j + " ");
         }
         System.out.println();
-        System.out.println(MyArrays.binarySearch(doubleArray, 5));
+        System.out.println(MyArrays.binarySearch(doubleArray, 5.0));
         MyArrays.sortAscendingOrder(doubleArray);
         for(double j : doubleArray){
             System.out.print(j + " ");
         }
         System.out.println();
-        System.out.println(MyArrays.binarySearch(doubleArray, 5));
+        System.out.println(MyArrays.binarySearch(doubleArray, 5.0));
         for(double j : doubleArray2){
             System.out.print(j + " ");
         }
@@ -165,7 +194,45 @@ public class TestBinarySearch {
         System.out.println();
     }
 
+    @Test
+    public void testGenericBinarySearch(){
+        System.out.println("Generic Binary Search Test");
+        for(Student j : studentArray){
+            System.out.print(j.getName() + ", " + j.getAge() + ", " + j.getScore() + " ");
+        }
+        System.out.println();
+        System.out.println(MyArrays.binarySearch(studentArray, new Student("Muthu"),
+                null));
+        System.out.println(MyArrays.binarySearch(studentArray, new Student("Aleks"),
+                new StudentNameComparator()));
+        System.out.println("Generic Binary Search Test END");
+        System.out.println();
+    }
+    @Test
+    public void testCollectionsBinarySearch(){
+        System.out.println("Collections Binary Search Test");
+        for(Student j : studentArray2){
+            System.out.print(j.getName() + ", " + j.getAge() + ", " + j.getScore() + " ");
+        }
+        System.out.println();
+        System.out.println(MyCollections.binarySearch(studentArray2, new Student("Richard"),
+                null));
+        System.out.println(MyCollections.binarySearch(studentArray2, new Student("Ali"),
+                new StudentNameComparator()));
 
+        // для бинарного поиска важен порядок, только при упорядоченной коллекции возможно гарантировать
+        // результат поиска
 
-
+        Collections.sort(studentArray2);
+        for(Student j : studentArray2){
+            System.out.print(j.getName() + ", " + j.getAge() + ", " + j.getScore() + " ");
+        }
+        System.out.println();
+        System.out.println(Collections.binarySearch(studentArray2, new Student("Richard"),
+                null));
+        System.out.println(MyCollections.binarySearch(studentArray2, new Student("Ali"),
+                new StudentNameComparator()));
+        System.out.println("Collections Binary Search Test END");
+        System.out.println();
+    }
 }
